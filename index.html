@@ -7,7 +7,23 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&family=Tiro+Telugu:ital@0;1&family=Ramaraja&family=Suranna&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/style.css"/>
 </head>
-<body>
+<body class="no-js">
+
+<!-- Scroll progress thread (gold mangalsutra-style indicator) -->
+<div class="scroll-thread" aria-hidden="true">
+  <div class="scroll-thread-fill"></div>
+  <div class="scroll-thread-pendant">
+    <svg viewBox="0 0 24 30">
+      <g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+        <circle cx="12" cy="14" r="6" fill="currentColor" opacity="0.15"/>
+        <circle cx="12" cy="14" r="6"/>
+        <circle cx="12" cy="14" r="2.5" fill="currentColor"/>
+        <path d="M12 2 L12 8"/>
+        <path d="M8 4 L16 4"/>
+      </g>
+    </svg>
+  </div>
+</div>
 
 <div class="pattern-bg"></div>
 
@@ -193,22 +209,26 @@
 
 <!-- HERO -->
 <section class="hero">
+  <!-- Ceremonial curtains (unveil on load) -->
+  <div class="curtain curtain-left" aria-hidden="true"></div>
+  <div class="curtain curtain-right" aria-hidden="true"></div>
+
   <div class="corner tl" style="color: var(--gold-deep);">
     <svg viewBox="0 0 160 160"><use href="#corner-orn"/></svg>
   </div>
   <div class="corner tr" style="color: var(--gold-deep);">
     <svg viewBox="0 0 160 160"><use href="#corner-orn"/></svg>
   </div>
-  <svg class="side-bommalu left" style="color: var(--teal-deep);"><use href="#bommalu-groom"/></svg>
-  <svg class="side-bommalu right" style="color: var(--teal-deep);"><use href="#bommalu-bride"/></svg>
-  <svg class="hero-bommalu" style="color: var(--teal-deep);"><use href="#bommalu-couple"/></svg>
+  <svg class="side-bommalu left bommalu-draw" style="color: var(--teal-deep);"><use href="#bommalu-groom"/></svg>
+  <svg class="side-bommalu right bommalu-draw" style="color: var(--teal-deep);"><use href="#bommalu-bride"/></svg>
+  <svg class="hero-bommalu bommalu-draw" style="color: var(--teal-deep);"><use href="#bommalu-couple"/></svg>
 
   <div class="hero-inner">
     <div class="hero-badge" data-en="Subhalekha · A Wedding Invitation" data-te="శుభలేఖ · వివాహ ఆహ్వానం">శుభలేఖ · A Wedding Invitation</div>
-    <h1>
-      <span data-en="Priya" data-te="ప్రియ">Priya</span><br/>
+    <h1 class="hero-title">
+      <span class="hero-name" data-en="Priya" data-te="ప్రియ">Priya</span><br/>
       <span class="amp">&amp;</span><br/>
-      <span data-en="Arjun" data-te="అర్జున్">Arjun</span>
+      <span class="hero-name" data-en="Arjun" data-te="అర్జున్">Arjun</span>
     </h1>
     <div class="hero-divider">
       <div class="line"></div>
@@ -222,14 +242,14 @@
 
 <!-- BOMMALU DIVIDER -->
 <div class="bommalu-divider">
-  <svg><use href="#bommalu-groom"/></svg>
-  <svg><use href="#bommalu-bride"/></svg>
+  <svg class="bommalu-draw divider-groom"><use href="#bommalu-groom"/></svg>
+  <svg class="bommalu-draw divider-bride"><use href="#bommalu-bride"/></svg>
 </div>
 
 <!-- STORY -->
 <section id="story">
-  <svg class="story-bg-bommalu l"><use href="#bommalu-groom"/></svg>
-  <svg class="story-bg-bommalu r"><use href="#bommalu-bride"/></svg>
+  <svg class="story-bg-bommalu l bommalu-draw"><use href="#bommalu-groom"/></svg>
+  <svg class="story-bg-bommalu r bommalu-draw"><use href="#bommalu-bride"/></svg>
 
   <div class="section-header reveal">
     <span class="pre" data-en="Mana Katha · Our Story" data-te="మన కథ">Mana Katha · Our Story</span>
@@ -249,7 +269,17 @@
         <p data-en="Surrounded by misty coffee estates and the scent of tribal silver, their friendship quietly blossomed into something neither could deny any longer." data-te="మంచుతో కప్పబడిన కాఫీ తోటల మధ్య, వారి స్నేహం మెల్లగా ప్రేమగా మారిపోయింది — ఇద్దరూ దాచలేని విధంగా.">Surrounded by misty coffee estates and the scent of tribal silver, their friendship quietly blossomed into something neither could deny any longer.</p>
       </div>
     </div>
-    <div class="story-divider-mid"></div>
+    <div class="story-divider-mid" aria-hidden="true">
+      <span class="mangalsutra-pendant">
+        <svg viewBox="0 0 20 24">
+          <g fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round">
+            <circle cx="10" cy="12" r="5" fill="currentColor" opacity="0.2"/>
+            <circle cx="10" cy="12" r="5"/>
+            <circle cx="10" cy="12" r="1.6" fill="currentColor"/>
+          </g>
+        </svg>
+      </span>
+    </div>
     <div class="story-col reveal">
       <div class="story-item">
         <div class="year" data-en="2019 · Vijayawada" data-te="2019 · విజయవాడ">2019 · Vijayawada</div>
@@ -324,9 +354,9 @@
     <div class="ornament-line"><span>✦</span></div>
   </div>
   <div class="bommalu-grid">
-    <div class="bommalu-slot reveal"><svg><use href="#bommalu-groom"/></svg></div>
-    <div class="bommalu-slot reveal"><svg><use href="#bommalu-couple"/></svg></div>
-    <div class="bommalu-slot reveal"><svg><use href="#bommalu-bride"/></svg></div>
+    <div class="bommalu-slot reveal"><svg class="bommalu-draw"><use href="#bommalu-groom"/></svg></div>
+    <div class="bommalu-slot reveal"><svg class="bommalu-draw"><use href="#bommalu-couple"/></svg></div>
+    <div class="bommalu-slot reveal"><svg class="bommalu-draw"><use href="#bommalu-bride"/></svg></div>
   </div>
 </section>
 
@@ -376,8 +406,8 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-bommalu">
-    <svg><use href="#bommalu-groom"/></svg>
-    <svg><use href="#bommalu-bride"/></svg>
+    <svg class="bommalu-draw"><use href="#bommalu-groom"/></svg>
+    <svg class="bommalu-draw"><use href="#bommalu-bride"/></svg>
   </div>
   <div class="footer-names">
     <span data-en="Priya" data-te="ప్రియ">Priya</span>
@@ -388,6 +418,9 @@
   <div class="footer-msg" data-en="&quot;Two hearts, one destiny — bound by love, blessed by tradition.&quot;" data-te="&quot;రెండు హృదయాలు, ఒకే గమ్యం — ప్రేమతో బంధించబడ్డాయి, సంప్రదాయంతో ఆశీర్వదించబడ్డాయి.&quot;">"Two hearts, one destiny — bound by love, blessed by tradition."</div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/[email protected]/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/[email protected]/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/[email protected]/dist/ScrollTrigger.min.js"></script>
 <script src="js/script.js"></script>
 </body>
 </html>
