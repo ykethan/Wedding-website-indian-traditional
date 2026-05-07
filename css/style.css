@@ -541,3 +541,305 @@ footer .footer-msg {
   .footer-bommalu { gap: 40px; }
   .footer-bommalu svg { width: 55px; height: 75px; }
 }
+
+
+/* ============================================================
+   SCROLL & LOAD ANIMATIONS (progressive enhancement)
+   - `body.no-js`  = baseline, everything visible
+   - `body.js-ready` = animations armed, hidden initial states
+   - `prefers-reduced-motion` = all hidden states reset
+   ============================================================ */
+
+/* ----- Lenis smooth scroll housekeeping ----- */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* When JS controls scroll, disable native smooth so Lenis handles it */
+body.js-ready { scroll-behavior: auto; }
+
+/* ================ SCROLL PROGRESS THREAD (right edge) ================ */
+.scroll-thread {
+  position: fixed;
+  top: 84px;                 /* below nav */
+  right: 14px;
+  bottom: 20px;
+  width: 2px;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease 0.4s;
+}
+.scroll-thread::before {
+  /* faint gold thread backdrop */
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(196,154,74,0.25) 10%,
+    rgba(196,154,74,0.25) 90%,
+    transparent 100%);
+}
+.scroll-thread-fill {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 0%;                /* JS sets this */
+  background: linear-gradient(to bottom,
+    var(--gold-light),
+    var(--gold),
+    var(--gold-deep));
+  box-shadow: 0 0 8px rgba(196,154,74,0.55);
+  transition: height 0.12s linear;
+}
+.scroll-thread-pendant {
+  position: absolute;
+  left: 50%;
+  top: 0;                    /* JS translates this */
+  width: 20px;
+  height: 24px;
+  transform: translate(-50%, -4px);
+  color: var(--gold);
+  filter: drop-shadow(0 2px 6px rgba(196,154,74,0.55));
+}
+.scroll-thread-pendant svg {
+  width: 100%; height: 100%;
+  animation: pendant-sway 4s ease-in-out infinite;
+  transform-origin: 50% 2px;
+}
+@keyframes pendant-sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50%      { transform: rotate(3deg); }
+}
+body.js-ready .scroll-thread { opacity: 1; }
+
+/* Hide thread on small screens to save space */
+@media (max-width: 700px) {
+  .scroll-thread { display: none; }
+}
+
+/* ================ HERO CURTAINS (ceremonial unveil) ================ */
+.curtain {
+  position: fixed;            /* fixed so the unveil is relative to viewport */
+  top: 0; bottom: 0;
+  width: 52vw;                /* overlap in the middle */
+  z-index: 95;
+  pointer-events: none;
+  will-change: transform;
+  background:
+    /* subtle pattern dots */
+    radial-gradient(circle at 30% 20%, rgba(196,154,74,0.08) 1px, transparent 1px),
+    radial-gradient(circle at 70% 80%, rgba(196,154,74,0.05) 1px, transparent 1px),
+    /* base ivory → teal gradient, like a silk pattu drape */
+    linear-gradient(135deg, var(--ivory) 0%, var(--ivory-warm) 45%, var(--gold-light) 100%);
+  background-size: 28px 28px, 20px 20px, 100% 100%;
+}
+.curtain-left  { left: 0; border-right: 2px solid var(--gold); }
+.curtain-right { right: 0; border-left: 2px solid var(--gold); }
+.curtain::before {
+  /* vertical pleats */
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    to right,
+    rgba(14,58,64,0) 0px,
+    rgba(14,58,64,0.04) 22px,
+    rgba(14,58,64,0.08) 44px,
+    rgba(14,58,64,0.04) 66px,
+    rgba(14,58,64,0) 88px);
+  opacity: 0.65;
+}
+.curtain::after {
+  /* gold rod silhouette at top */
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(to bottom, var(--gold-deep), var(--gold));
+}
+/* JS-ready: curtains are visible at start and get animated out */
+body.no-js .curtain { display: none; }
+body.js-ready .curtain { display: block; }
+
+/* ================ HERO TITLE + NAME STAGGER ================ */
+/* Disable the old CSS keyframe animations when JS timeline takes over */
+body.js-ready .hero-badge,
+body.js-ready .hero h1,
+body.js-ready .hero-divider,
+body.js-ready .hero-date,
+body.js-ready .hero-location { animation: none; opacity: 0; }
+
+/* Names wrapped in per-character spans by JS; set base state */
+.hero-name .char {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+}
+body.js-ready .hero-name .char {
+  opacity: 0;
+  transform: translateY(0.5em);
+  filter: blur(8px);
+}
+
+/* ================ BOMMALU SELF-DRAW ================ */
+/* Paths prepared by JS with stroke-dasharray/offset; this is just the
+   initial hidden state for stacked circle fills so they don't pop in early */
+body.js-ready .bommalu-draw { visibility: hidden; }
+body.js-ready .bommalu-draw.is-drawing,
+body.js-ready .bommalu-draw.is-drawn { visibility: visible; }
+
+/* Fills (ellipse/circle with fill=currentColor inside bommalu) fade in
+   after strokes finish. JS toggles .is-drawn on completion. */
+.bommalu-draw [fill="currentColor"],
+.bommalu-draw ellipse[fill="currentColor"] {
+  transition: opacity 0.6s ease;
+}
+body.js-ready .bommalu-draw.is-drawing [fill="currentColor"] { opacity: 0; }
+body.js-ready .bommalu-draw.is-drawn   [fill="currentColor"] { opacity: inherit; }
+
+/* ================ STORY MANGALSUTRA TIMELINE ================ */
+/* Replace the static gradient line with a scrub-controlled one.
+   We keep the static gradient as a subtle backdrop and draw a gold line on top. */
+.story-divider-mid { position: relative; background: none; }
+.story-divider-mid::before { display: none; } /* hide old static star */
+.story-divider-mid::after {
+  /* backdrop — very faint, so the divider never disappears entirely */
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%; width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(to bottom, transparent, rgba(196,154,74,0.18), transparent);
+}
+.story-divider-mid .mangalsutra-thread {
+  position: absolute;
+  top: 0; left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  height: 0;                /* JS scrubs this */
+  background: linear-gradient(to bottom,
+    transparent,
+    var(--gold-light) 8%,
+    var(--gold) 50%,
+    var(--gold-deep) 92%,
+    transparent);
+  box-shadow: 0 0 6px rgba(196,154,74,0.4);
+  pointer-events: none;
+}
+.story-divider-mid .mangalsutra-pendant {
+  position: absolute;
+  top: 0;                   /* JS animates via transform */
+  left: 50%;
+  width: 20px; height: 24px;
+  margin-left: -10px;
+  color: var(--gold-deep);
+  filter: drop-shadow(0 2px 4px rgba(196,154,74,0.5));
+  opacity: 0;               /* JS reveals once thread starts drawing */
+  transition: opacity 0.4s ease;
+}
+body.no-js .story-divider-mid .mangalsutra-pendant { opacity: 1; top: 50%; transform: translate(-50%, -50%); }
+body.no-js .story-divider-mid::before { display: block; } /* restore fallback star */
+
+/* Story items: base hidden state when JS is active */
+body.js-ready .story-item { opacity: 0; transform: translateY(28px); }
+body.js-ready .story-item .year {
+  opacity: 0; transform: translateX(-12px);
+  transition: none;
+}
+body.js-ready .story-item h3 { position: relative; }
+body.js-ready .story-item h3::after {
+  /* gold underline sweep */
+  content: '';
+  position: absolute;
+  left: 0; bottom: -4px;
+  height: 1px; width: 0%;
+  background: linear-gradient(to right, var(--gold), transparent);
+}
+body.js-ready .story-item.is-revealed h3::after {
+  width: 60%;
+  transition: width 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) 0.15s;
+}
+
+/* Left column items mirror the underline */
+body.js-ready .story-col:first-child .story-item h3::after {
+  left: auto; right: 0;
+  background: linear-gradient(to left, var(--gold), transparent);
+}
+
+/* ================ CEREMONY CARD UNFURL ================ */
+.ceremonies-grid { perspective: 1200px; }
+body.js-ready .ceremony-card {
+  opacity: 0;
+  transform: rotateX(-80deg) translateY(30px);
+  transform-origin: 50% 0%;
+  will-change: transform, opacity;
+}
+/* Gold sweep border on reveal-in */
+.ceremony-card {
+  position: relative;
+  overflow: hidden;
+}
+.ceremony-card .card-sweep {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    rgba(224,187,110,0.35) 48%,
+    rgba(251,244,224,0.55) 50%,
+    rgba(224,187,110,0.35) 52%,
+    transparent 65%);
+  transform: translateX(-110%);
+  opacity: 0;
+  mix-blend-mode: screen;
+}
+.ceremony-card.is-revealed .card-sweep {
+  animation: card-shimmer 1.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s 1 forwards;
+}
+@keyframes card-shimmer {
+  0%   { transform: translateX(-110%); opacity: 0; }
+  40%  { opacity: 1; }
+  100% { transform: translateX(110%); opacity: 0; }
+}
+
+/* Tiny ceremony bommalu eases in after the card lands */
+body.js-ready .ceremony-bommalu {
+  opacity: 0;
+  transform: translateY(-6px) scale(0.9);
+  transition: opacity 0.7s ease 0.35s, transform 0.7s cubic-bezier(0.22,0.61,0.36,1) 0.35s;
+}
+body.js-ready .ceremony-card.is-revealed .ceremony-bommalu {
+  opacity: 0.55;
+  transform: translateY(0) scale(1);
+}
+
+/* ================ REVEAL BASE (GSAP-driven replacements) ================ */
+/* When JS is ready, we let GSAP drive .reveal via ScrollTrigger.
+   The old CSS `.reveal.visible` still works as fallback. */
+body.js-ready .reveal { opacity: 0; transform: translateY(32px); transition: none; }
+
+/* ================ PARALLAX: pattern-bg drifts slowly ================ */
+body.js-ready .pattern-bg { will-change: transform; }
+
+/* ================ REDUCED MOTION — reset everything ================ */
+@media (prefers-reduced-motion: reduce) {
+  body.js-ready .hero-badge,
+  body.js-ready .hero h1,
+  body.js-ready .hero-divider,
+  body.js-ready .hero-date,
+  body.js-ready .hero-location,
+  body.js-ready .hero-name .char,
+  body.js-ready .story-item,
+  body.js-ready .story-item .year,
+  body.js-ready .ceremony-card,
+  body.js-ready .ceremony-bommalu,
+  body.js-ready .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    visibility: visible !important;
+  }
+  body.js-ready .bommalu-draw { visibility: visible !important; }
+  body.js-ready .bommalu-draw [fill="currentColor"] { opacity: inherit !important; }
+  .curtain { display: none !important; }
+  .scroll-thread { display: none !important; }
+  .scroll-thread-pendant svg { animation: none !important; }
+}
