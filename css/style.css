@@ -623,6 +623,18 @@ footer .footer-msg {
   line-height: 1.7;
 }
 
+/* ===== BOMMALU HOVER HINT ===== */
+/* Invite interaction on the slot, divider, and footer bommalu */
+.bommalu-slot svg,
+.bommalu-divider svg,
+.footer-bommalu svg {
+  cursor: crosshair;
+  transition: opacity 0.35s ease;
+}
+.bommalu-slot:hover svg   { opacity: 0.85; }
+.bommalu-divider:hover svg { opacity: 0.85; }
+.footer-bommalu:hover svg  { opacity: 0.9; }
+
 /* ===== SCROLL HINT (hero bounce chevron) ===== */
 .scroll-hint {
   position: absolute;

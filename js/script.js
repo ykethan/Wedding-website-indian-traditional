@@ -36,6 +36,7 @@
     initSmoothScroll();
     initScrollHint();
     initBommaluDraw();
+    initBommaluHover();
     initHeroTimeline();
     initStoryTimeline();
     initCeremonyCards();
@@ -277,6 +278,53 @@
     gsap.delayedCall(duration * 0.85, function () {
       svg.classList.remove('is-drawing');
       svg.classList.add('is-drawn');
+    });
+  }
+
+  // =====================================================================
+  // 3b. BOMMALU HOVER REDRAW
+  // Re-draws the line art when pointer enters a bommalu (mouse/stylus only).
+  // Only fires after the initial scroll-draw has completed (is-drawn).
+  // =====================================================================
+  function initBommaluHover() {
+    if (prefersReduced) return;
+    var gsap = window.gsap;
+
+    var targets = document.querySelectorAll(
+      '.bommalu-slot .bommalu-draw, .bommalu-divider .bommalu-draw, .footer-bommalu .bommalu-draw'
+    );
+
+    targets.forEach(function (svg) {
+      svg.addEventListener('pointerenter', function (e) {
+        // Only mouse / stylus — skip touch (pointerType "touch")
+        if (e.pointerType === 'touch') return;
+        if (!svg._paths || !svg._paths.length) return;
+        if (!svg.classList.contains('is-drawn')) return;
+
+        // Kill any in-progress tweens on these paths
+        gsap.killTweensOf(Array.from(svg._paths));
+
+        // Instantly reset to "un-drawn" state
+        svg._paths.forEach(function (p) {
+          if (!p.style.strokeDasharray) return;
+          var len = parseFloat(p.style.strokeDasharray);
+          if (len > 0) gsap.set(p, { strokeDashoffset: len });
+        });
+
+        // Re-draw at a snappy pace
+        var dur = 1.0;
+        var baseDelay = 0;
+        svg._paths.forEach(function (p) {
+          if (!p.style.strokeDasharray) return;
+          gsap.to(p, {
+            strokeDashoffset: 0,
+            duration: dur * 0.7,
+            delay: baseDelay,
+            ease: 'power2.inOut'
+          });
+          baseDelay += (dur * 0.3) / svg._paths.length;
+        });
+      });
     });
   }
 
