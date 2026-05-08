@@ -375,47 +375,173 @@ section { position: relative; z-index: 1; }
   line-height: 1.6; margin-top: 12px;
 }
 
-/* ===== BOMMALU SHOWCASE ===== */
-#bommalu-showcase {
+/* ===== PHOTO GALLERY ===== */
+#gallery {
   padding: 100px 20px;
   background: var(--teal-deep);
   position: relative; overflow: hidden;
 }
-#bommalu-showcase::before {
+#gallery::before {
   content: ''; position: absolute; inset: 0;
   background-image:
     radial-gradient(circle at 30% 40%, rgba(196,154,74,0.08) 1px, transparent 1px),
     radial-gradient(circle at 70% 60%, rgba(196,154,74,0.06) 1px, transparent 1px);
   background-size: 50px 50px, 35px 35px;
 }
-#bommalu-showcase .section-header h2 { color: var(--ivory); }
-#bommalu-showcase .section-header h2 em { color: var(--gold-light); }
-#bommalu-showcase .section-header .pre { color: var(--gold-light); }
-.bommalu-grid {
-  max-width: 1100px; margin: 0 auto; position: relative; z-index: 2;
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+#gallery .section-header h2 { color: var(--ivory); }
+#gallery .section-header h2 em { color: var(--gold-light); }
+#gallery .section-header .pre { color: var(--gold-light); }
+#gallery .ornament-line::before,
+#gallery .ornament-line::after { background: rgba(196,154,74,0.45); }
+#gallery .ornament-line span { color: var(--gold-light); }
+
+.photo-grid {
+  max-width: 1100px; margin: 0 auto;
+  position: relative; z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
 }
-.bommalu-slot {
-  aspect-ratio: 3/4;
-  background: var(--ivory);
-  border: 1px solid var(--gold);
-  padding: 16px;
+
+.photo-card {
   position: relative;
-  display: flex; align-items: center; justify-content: center;
   overflow: hidden;
+  border: 1px solid rgba(196,154,74,0.35);
+  cursor: pointer;
 }
-.bommalu-slot::before {
+.photo-card::before {
   content: ''; position: absolute;
-  top: 6px; left: 6px; right: 6px; bottom: 6px;
-  border: 1px solid rgba(196,154,74,0.4);
+  inset: 5px;
+  border: 1px solid rgba(196,154,74,0.15);
+  pointer-events: none; z-index: 3;
+}
+
+.photo-wrap {
+  aspect-ratio: 3/4;
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-deep) 100%);
+}
+/* Every 4th card is landscape for visual variety */
+.photo-grid .photo-card:nth-child(4n+2) .photo-wrap,
+.photo-grid .photo-card:nth-child(4n+3) .photo-wrap { aspect-ratio: 4/3; }
+
+/* Actual photo */
+.photo-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: scale(1.02);
+}
+.photo-img.ph-loaded {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Placeholder shown before real photo loads */
+.photo-ph {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
   pointer-events: none;
 }
-.bommalu-slot svg { width: 100%; height: 100%; color: var(--teal-deep); }
-.bommalu-caption {
-  text-align: center; margin-top: 14px;
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 0.55rem; letter-spacing: 0.25em;
+.photo-ph span {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  color: rgba(196,154,74,0.25);
+  letter-spacing: 0.45em;
+  font-weight: 300;
+  user-select: none;
+}
+/* Hide placeholder once image is loaded */
+.photo-img.ph-loaded ~ .photo-ph { display: none; }
+
+/* Hover overlay + zoom icon */
+.photo-overlay {
+  position: absolute; inset: 0; z-index: 2;
+  background: rgba(14,58,64,0);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.35s ease;
+}
+.photo-card:hover .photo-overlay { background: rgba(14,58,64,0.38); }
+.photo-card:hover .photo-img { transform: scale(1.06); }
+.photo-zoom {
   color: var(--gold-light);
+  font-size: 2.2rem;
+  opacity: 0;
+  transform: scale(0.75);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  line-height: 1;
+  user-select: none;
+}
+.photo-card:hover .photo-zoom { opacity: 1; transform: scale(1); }
+
+/* ===== LIGHTBOX ===== */
+.lightbox {
+  position: fixed; inset: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+}
+.lightbox[hidden] { display: none; }
+
+.lb-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(10,35,41,0.96);
+  cursor: pointer;
+}
+.lb-img-wrap {
+  position: relative; z-index: 1;
+  max-width: 90vw; max-height: 85vh;
+  border: 1px solid rgba(196,154,74,0.35);
+  line-height: 0;
+}
+.lb-img {
+  display: block;
+  max-width: 90vw; max-height: 85vh;
+  object-fit: contain;
+}
+
+.lb-close, .lb-prev, .lb-next {
+  position: fixed; z-index: 2;
+  background: none; border: none;
+  color: var(--gold-light);
+  cursor: pointer; line-height: 1;
+  transition: color 0.25s, transform 0.2s;
+  font-family: 'Cormorant Garamond', serif;
+}
+.lb-close {
+  top: 20px; right: 24px;
+  font-size: 1.6rem; padding: 8px;
+}
+.lb-prev {
+  left: 16px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 4rem; padding: 8px 16px;
+}
+.lb-next {
+  right: 16px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 4rem; padding: 8px 16px;
+}
+.lb-close:hover { color: var(--ivory); }
+.lb-prev:hover  { color: var(--ivory); transform: translateY(-50%) translateX(-3px); }
+.lb-next:hover  { color: var(--ivory); transform: translateY(-50%) translateX(3px); }
+
+.lb-counter {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%);
+  color: rgba(196,154,74,0.7);
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.5rem; letter-spacing: 0.22em;
+  z-index: 2;
+}
+
+/* Gallery responsive */
+@media (max-width: 700px) {
+  .photo-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .photo-grid .photo-card:nth-child(4n+2) .photo-wrap,
+  .photo-grid .photo-card:nth-child(4n+3) .photo-wrap { aspect-ratio: 3/4; }
+  .lb-prev { left: 4px; font-size: 2.8rem; }
+  .lb-next { right: 4px; font-size: 2.8rem; }
 }
 
 /* ===== CEREMONY CARD ACCENT COLOURS ===== */
@@ -690,10 +816,7 @@ body.js-ready .scroll-hint { opacity: 0.55; }
   .story-divider-mid { display: none; }
   /* Ceremony cards: explicit single-column stack with tighter gap */
   .ceremonies-grid { grid-template-columns: 1fr; gap: 16px; }
-  .bommalu-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
-  .bommalu-grid .bommalu-slot:nth-child(3) {
-    grid-column: span 2; max-width: 60%; margin: 0 auto;
-  }
+  /* photo-grid mobile handled in its own block above */
   .side-bommalu { width: 90px; opacity: 0.18; }
   .footer-bommalu { gap: 40px; }
   .footer-bommalu svg { width: 55px; height: 75px; }

@@ -207,7 +207,7 @@
     <li><a href="#story" data-en="Our Story" data-te="మన కథ">Our Story</a></li>
     <li><a href="#ceremonies" data-en="Pelli Pandiri" data-te="పెళ్లి పందిరి">Pelli Pandiri</a></li>
     <li><a href="#venue" data-en="Venue" data-te="వేదిక">Venue</a></li>
-    <li><a href="#bommalu-showcase" data-en="Gallery" data-te="గ్యాలరీ">Gallery</a></li>
+    <li><a href="#gallery" data-en="Gallery" data-te="గ్యాలరీ">Gallery</a></li>
   </ul>
   <div class="lang-toggle">
     <button class="active" data-lang="en">EN</button>
@@ -433,19 +433,77 @@
   <div class="div-line"></div>
 </div>
 
-<!-- BOMMALU SHOWCASE -->
-<section id="bommalu-showcase">
+<!-- GALLERY -->
+<section id="gallery">
   <div class="section-header reveal">
-    <span class="pre" data-en="Photo Gallery" data-te="ఫోటో గ్యాలరీ">ఫోటో గ్యాలరీ · Photo Gallery</span>
+    <span class="pre" data-en="Pre-Wedding · Candids" data-te="వివాహానికి ముందు · ఫోటోలు">Pre-Wedding · Candids</span>
     <h2 data-en="&lt;em&gt;Gallery&lt;/em&gt;" data-te="&lt;em&gt;గ్యాలరీ&lt;/em&gt;"><em>Gallery</em></h2>
     <div class="ornament-line"><span>✦</span></div>
   </div>
-  <div class="bommalu-grid">
-    <div class="bommalu-slot reveal"><svg class="bommalu-draw"><use href="#bommalu-groom"/></svg></div>
-    <div class="bommalu-slot reveal"><svg class="bommalu-draw"><use href="#bommalu-couple"/></svg></div>
-    <div class="bommalu-slot reveal"><svg class="bommalu-draw"><use href="#bommalu-bride"/></svg></div>
+  <div class="photo-grid">
+
+    <div class="photo-card reveal" data-index="0">
+      <div class="photo-wrap">
+        <img class="photo-img" src="" alt="Kethan & Indu — pre-wedding photo 1" loading="lazy"/>
+        <div class="photo-ph" aria-hidden="true"><span>K &amp; I</span></div>
+        <div class="photo-overlay"><span class="photo-zoom">⊕</span></div>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-index="1">
+      <div class="photo-wrap">
+        <img class="photo-img" src="" alt="Kethan & Indu — pre-wedding photo 2" loading="lazy"/>
+        <div class="photo-ph" aria-hidden="true"><span>K &amp; I</span></div>
+        <div class="photo-overlay"><span class="photo-zoom">⊕</span></div>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-index="2">
+      <div class="photo-wrap">
+        <img class="photo-img" src="" alt="Kethan & Indu — pre-wedding photo 3" loading="lazy"/>
+        <div class="photo-ph" aria-hidden="true"><span>K &amp; I</span></div>
+        <div class="photo-overlay"><span class="photo-zoom">⊕</span></div>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-index="3">
+      <div class="photo-wrap">
+        <img class="photo-img" src="" alt="Kethan & Indu — pre-wedding photo 4" loading="lazy"/>
+        <div class="photo-ph" aria-hidden="true"><span>K &amp; I</span></div>
+        <div class="photo-overlay"><span class="photo-zoom">⊕</span></div>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-index="4">
+      <div class="photo-wrap">
+        <img class="photo-img" src="" alt="Kethan & Indu — pre-wedding photo 5" loading="lazy"/>
+        <div class="photo-ph" aria-hidden="true"><span>K &amp; I</span></div>
+        <div class="photo-overlay"><span class="photo-zoom">⊕</span></div>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-index="5">
+      <div class="photo-wrap">
+        <img class="photo-img" src="" alt="Kethan & Indu — pre-wedding photo 6" loading="lazy"/>
+        <div class="photo-ph" aria-hidden="true"><span>K &amp; I</span></div>
+        <div class="photo-overlay"><span class="photo-zoom">⊕</span></div>
+      </div>
+    </div>
+
   </div>
 </section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+  <div class="lb-backdrop"></div>
+  <button class="lb-close" aria-label="Close photo viewer">✕</button>
+  <button class="lb-prev" aria-label="Previous photo">&#8249;</button>
+  <button class="lb-next" aria-label="Next photo">&#8250;</button>
+  <div class="lb-img-wrap">
+    <img class="lb-img" src="" alt=""/>
+  </div>
+  <div class="lb-counter" aria-live="polite"></div>
+</div>
 
 
 <!-- FOOTER -->

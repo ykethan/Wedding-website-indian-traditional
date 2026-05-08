@@ -20,6 +20,7 @@
     initLanguageToggle();
     initCountdown();
     initMobileNav();
+    initGallery();
 
     if (prefersReduced || !hasGSAP || !hasST) {
       // Fallback: use the original IntersectionObserver reveal
@@ -454,7 +455,8 @@
       if (el.classList.contains('story-col') ||
           el.classList.contains('ceremony-card') ||
           el.classList.contains('bommalu-slot') ||
-          el.classList.contains('section-header')) {
+          el.classList.contains('section-header') ||
+          el.classList.contains('photo-card')) {
         // story-col / cards handled elsewhere; make sure bommalu-slot wrapper reveals
         if (el.classList.contains('bommalu-slot')) {
           gsap.to(el, {
@@ -609,6 +611,89 @@
       });
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(function (el) { observer.observe(el); });
+  }
+
+  // =====================================================================
+  // GALLERY — photo grid + lightbox
+  // Works without GSAP; fades images in on load and opens a CSS lightbox.
+  // To add photos: set src="photos/filename.jpg" on each .photo-img
+  // To add more cards: duplicate a .photo-card block and update data-index.
+  // =====================================================================
+  function initGallery() {
+    // --- Photo load → fade in & hide placeholder ---
+    document.querySelectorAll('.photo-img').forEach(function (img) {
+      function onLoad() { img.classList.add('ph-loaded'); }
+      if (img.complete && img.naturalWidth > 0) {
+        onLoad();
+      } else {
+        img.addEventListener('load', onLoad);
+      }
+    });
+
+    // --- Lightbox setup ---
+    var lb       = document.getElementById('lightbox');
+    var lbImg    = lb ? lb.querySelector('.lb-img')     : null;
+    var lbCount  = lb ? lb.querySelector('.lb-counter') : null;
+    if (!lb || !lbImg) return;
+
+    var cards   = document.querySelectorAll('.photo-card');
+    var current = 0;
+
+    function open(idx) {
+      // Collect cards that have a real src
+      var loaded = Array.from(cards).filter(function (c) {
+        var img = c.querySelector('.photo-img');
+        return img && img.src && !img.src.endsWith('/') && img.naturalWidth > 0;
+      });
+      if (!loaded.length) return;
+
+      current = ((idx % loaded.length) + loaded.length) % loaded.length;
+      var src = loaded[current].querySelector('.photo-img').src;
+      var alt = loaded[current].querySelector('.photo-img').alt;
+      lbImg.src = src;
+      lbImg.alt = alt;
+      if (lbCount) lbCount.textContent = (current + 1) + ' / ' + loaded.length;
+      lb.hidden = false;
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      lb.hidden = true;
+      lbImg.src = '';
+      document.body.style.overflow = '';
+    }
+
+    function prev() { open(current - 1); }
+    function next() { open(current + 1); }
+
+    // Card click → open
+    cards.forEach(function (card, i) {
+      card.addEventListener('click', function () { open(i); });
+    });
+
+    lb.querySelector('.lb-close').addEventListener('click', close);
+    lb.querySelector('.lb-prev').addEventListener('click', prev);
+    lb.querySelector('.lb-next').addEventListener('click', next);
+    lb.querySelector('.lb-backdrop').addEventListener('click', close);
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function (e) {
+      if (lb.hidden) return;
+      if (e.key === 'Escape')      close();
+      if (e.key === 'ArrowLeft')   prev();
+      if (e.key === 'ArrowRight')  next();
+    });
+
+    // GSAP scroll-reveal for photo cards (if available)
+    if (hasGSAP && hasST) {
+      cards.forEach(function (card, i) {
+        window.gsap.to(card, {
+          opacity: 1, y: 0, duration: 0.75, ease: 'power3.out',
+          delay: (i % 3) * 0.08,
+          scrollTrigger: { trigger: card, start: 'top 88%', once: true }
+        });
+      });
+    }
   }
 
   // =====================================================================
