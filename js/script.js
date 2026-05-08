@@ -34,13 +34,16 @@
     window.gsap.registerPlugin(window.ScrollTrigger);
 
     initSmoothScroll();
+    initScrollHint();
     initBommaluDraw();
     initHeroTimeline();
     initStoryTimeline();
     initCeremonyCards();
+    initSectionHeaders();
     initGenericReveal();
     initScrollThread();
     initParallax();
+    initFooter();
   });
 
   // =====================================================================
@@ -402,7 +405,8 @@
       // Skip ones handled by more specific timelines
       if (el.classList.contains('story-col') ||
           el.classList.contains('ceremony-card') ||
-          el.classList.contains('bommalu-slot')) {
+          el.classList.contains('bommalu-slot') ||
+          el.classList.contains('section-header')) {
         // story-col / cards handled elsewhere; make sure bommalu-slot wrapper reveals
         if (el.classList.contains('bommalu-slot')) {
           gsap.to(el, {
@@ -472,6 +476,77 @@
     if (window.ParallaxEngine) {
       window.ParallaxEngine.init(lenis);
     }
+  }
+
+  // =====================================================================
+  // 9. SCROLL HINT — hide bouncing chevron once user starts scrolling
+  // =====================================================================
+  function initScrollHint() {
+    var hint = document.querySelector('.scroll-hint');
+    if (!hint) return;
+
+    function hideHint() {
+      if (window.scrollY > 60) {
+        hint.classList.add('is-gone');
+      }
+    }
+
+    if (lenis) {
+      lenis.on('scroll', hideHint);
+    } else {
+      window.addEventListener('scroll', hideHint, { passive: true });
+    }
+  }
+
+  // =====================================================================
+  // 10. SECTION HEADER SPLIT — pre drops from above, h2 rises with blur
+  // =====================================================================
+  function initSectionHeaders() {
+    var gsap = window.gsap;
+    document.querySelectorAll('.section-header').forEach(function (header) {
+      var pre = header.querySelector('.pre');
+      var h2  = header.querySelector('h2');
+      var orn = header.querySelector('.ornament-line');
+
+      var tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: header,
+          start: 'top 88%',
+          once: true
+        }
+      });
+
+      if (pre) tl.to(pre, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, 0);
+      if (h2)  tl.to(h2,  { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.85, ease: 'power3.out' }, 0.12);
+      if (orn) tl.to(orn, { opacity: 1, duration: 0.55, ease: 'power2.out' }, 0.55);
+    });
+  }
+
+  // =====================================================================
+  // 11. FOOTER ENTRANCE — bommalu, names, date, and quote stagger in
+  // =====================================================================
+  function initFooter() {
+    var gsap = window.gsap;
+    var footer = document.querySelector('footer');
+    if (!footer) return;
+
+    var bommalu = footer.querySelector('.footer-bommalu');
+    var names   = footer.querySelector('.footer-names');
+    var date    = footer.querySelector('.footer-date');
+    var msg     = footer.querySelector('.footer-msg');
+
+    var tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: footer,
+        start: 'top 92%',
+        once: true
+      }
+    });
+
+    if (bommalu) tl.to(bommalu, { opacity: 0.7, y: 0, duration: 1.0, ease: 'power3.out' }, 0);
+    if (names)   tl.to(names,   { opacity: 1,   y: 0, duration: 0.85, ease: 'power3.out' }, 0.25);
+    if (date)    tl.to(date,    { opacity: 1,       duration: 0.6,  ease: 'power2.out' }, 0.5);
+    if (msg)     tl.to(msg,     { opacity: 1,       duration: 0.7,  ease: 'power2.out' }, 0.7);
   }
 
   // =====================================================================

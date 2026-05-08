@@ -621,6 +621,25 @@ footer .footer-msg {
   line-height: 1.7;
 }
 
+/* ===== SCROLL HINT (hero bounce chevron) ===== */
+.scroll-hint {
+  position: absolute;
+  bottom: 28px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 4; pointer-events: none;
+  color: var(--gold-deep);
+  opacity: 0;
+  animation: scrollBounce 2.2s ease-in-out infinite;
+  transition: opacity 0.5s ease;
+}
+.scroll-hint svg { width: 20px; height: 28px; display: block; }
+@keyframes scrollBounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(8px); }
+}
+body.js-ready .scroll-hint { opacity: 0.55; }
+.scroll-hint.is-gone { opacity: 0 !important; transition: opacity 0.4s ease; }
+
 /* ===== ANIMATIONS ===== */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(28px); }
@@ -938,6 +957,27 @@ body.js-ready .ceremony-card.is-revealed .ceremony-bommalu {
    The old CSS `.reveal.visible` still works as fallback. */
 body.js-ready .reveal { opacity: 0; transform: translateY(32px); transition: none; }
 
+/* ================ SECTION HEADER SPLIT ANIMATION ================ */
+/* .pre drops in from above, h2 rises from below with blur, ornament fades in */
+body.js-ready .section-header .pre {
+  opacity: 0;
+  transform: translateY(-14px);
+}
+body.js-ready .section-header h2 {
+  opacity: 0;
+  transform: translateY(18px);
+  filter: blur(3px);
+}
+body.js-ready .section-header .ornament-line {
+  opacity: 0;
+}
+
+/* ================ FOOTER ENTRANCE ================ */
+body.js-ready footer .footer-bommalu { opacity: 0; transform: translateY(22px); }
+body.js-ready footer .footer-names   { opacity: 0; transform: translateY(14px); }
+body.js-ready footer .footer-date    { opacity: 0; }
+body.js-ready footer .footer-msg     { opacity: 0; }
+
 /* ================ PARALLAX: pattern-bg drifts slowly ================ */
 body.js-ready .pattern-bg { will-change: transform; }
 
@@ -953,7 +993,14 @@ body.js-ready .pattern-bg { will-change: transform; }
   body.js-ready .story-item .year,
   body.js-ready .ceremony-card,
   body.js-ready .ceremony-bommalu,
-  body.js-ready .reveal {
+  body.js-ready .reveal,
+  body.js-ready .section-header .pre,
+  body.js-ready .section-header h2,
+  body.js-ready .section-header .ornament-line,
+  body.js-ready footer .footer-bommalu,
+  body.js-ready footer .footer-names,
+  body.js-ready footer .footer-date,
+  body.js-ready footer .footer-msg {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
@@ -962,6 +1009,7 @@ body.js-ready .pattern-bg { will-change: transform; }
   body.js-ready .bommalu-draw { visibility: visible !important; }
   body.js-ready .bommalu-draw [fill="currentColor"] { opacity: inherit !important; }
   .curtain { display: none !important; }
+  .scroll-hint { display: none !important; }
   .scroll-thread { display: none !important; }
   .scroll-thread-pendant svg { animation: none !important; }
 }
