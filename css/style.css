@@ -55,7 +55,7 @@ body.lang-te .bommalu-caption {
   font-size: 0.85rem !important;
 }
 body.lang-te .hero h1 {
-  font-size: clamp(2.6rem, 7.5vw, 6rem);
+  font-size: clamp(1.9rem, 7.5vw, 6rem);
   line-height: 1.15;
 }
 
@@ -195,7 +195,7 @@ nav.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(
 
 .hero h1 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(3.2rem, 9vw, 7.5rem);
+  font-size: clamp(2rem, 12vw, 7.5rem);
   font-weight: 300; color: var(--teal-deep);
   line-height: 1.05; letter-spacing: 0.02em;
   animation: fadeUp 1.2s 0.2s ease both;
@@ -517,7 +517,9 @@ section { position: relative; z-index: 1; }
 .venue-map iframe { display: block; }
 
 @media (max-width: 700px) {
-  .venue-wrap { grid-template-columns: 1fr; gap: 28px; }
+  .venue-wrap { grid-template-columns: 1fr; gap: 24px; }
+  /* Map first on mobile — visual anchor before address text */
+  .venue-map { order: -1; }
   .venue-map iframe { height: 260px; }
 }
 
@@ -674,6 +676,8 @@ body.js-ready .scroll-hint { opacity: 0.55; }
   nav.nav-open ul { display: flex; }
   .story-grid { grid-template-columns: 1fr; }
   .story-divider-mid { display: none; }
+  /* Ceremony cards: explicit single-column stack with tighter gap */
+  .ceremonies-grid { grid-template-columns: 1fr; gap: 16px; }
   .bommalu-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
   .bommalu-grid .bommalu-slot:nth-child(3) {
     grid-column: span 2; max-width: 60%; margin: 0 auto;
