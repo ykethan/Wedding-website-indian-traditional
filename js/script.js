@@ -18,7 +18,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     // Always-on features
     initLanguageToggle();
-    initRSVP();
+    initCountdown();
 
     if (prefersReduced || !hasGSAP || !hasST) {
       // Fallback: use the original IntersectionObserver reveal
@@ -529,27 +529,38 @@
   }
 
   // =====================================================================
-  // RSVP (unchanged)
+  // COUNTDOWN TIMER
   // =====================================================================
-  function initRSVP() {
-    var submitBtn = document.querySelector('.btn-submit');
-    if (!submitBtn) return;
+  function initCountdown() {
+    var target  = new Date('2026-08-23T11:30:00+05:30').getTime();
+    var wrap    = document.getElementById('countdown');
+    var married = document.getElementById('countdown-married');
+    var daysEl  = document.getElementById('cd-days');
+    var hoursEl = document.getElementById('cd-hours');
+    var minsEl  = document.getElementById('cd-mins');
+    var secsEl  = document.getElementById('cd-secs');
 
-    submitBtn.addEventListener('click', function () {
-      var nameInput = document.querySelector('#rsvp input[type="text"]');
-      var name = nameInput ? nameInput.value.trim() : '';
-      var isTe = document.body.classList.contains('lang-te');
+    if (!wrap) return;
 
-      if (!name) {
-        alert(isTe ? 'దయచేసి మీ పేరు నమోదు చేయండి.' : 'Please enter your name.');
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    function tick() {
+      var diff = target - Date.now();
+
+      if (diff <= 0) {
+        wrap.hidden = true;
+        if (married) married.hidden = false;
         return;
       }
 
-      if (isTe) {
-        alert('🪷 ధన్యవాదాలు, ' + name + '! మీ స్పందన అందింది. మీతో కలిసి జరుపుకోవడానికి ఎదురుచూస్తున్నాము!');
-      } else {
-        alert('🪷 Dhanyavadalu, ' + name + '! Your RSVP has been received. We look forward to celebrating with you!');
-      }
-    });
+      daysEl.textContent  = pad(Math.floor(diff / 86400000));
+      hoursEl.textContent = pad(Math.floor((diff % 86400000) / 3600000));
+      minsEl.textContent  = pad(Math.floor((diff % 3600000)  / 60000));
+      secsEl.textContent  = pad(Math.floor((diff % 60000)    / 1000));
+
+      setTimeout(tick, 1000);
+    }
+
+    tick();
   }
 })();

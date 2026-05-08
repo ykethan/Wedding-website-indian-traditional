@@ -392,91 +392,52 @@ section { position: relative; z-index: 1; }
   color: var(--gold-light);
 }
 
-/* ===== RSVP ===== */
-#rsvp {
-  padding: 100px 20px;
-  background:
-    radial-gradient(ellipse at 50% 0%, rgba(74,155,168,0.12) 0%, transparent 70%),
-    var(--ivory-warm);
-  position: relative; overflow: hidden;
+/* ===== COUNTDOWN ===== */
+.countdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 28px;
+  flex-wrap: wrap;
 }
-#rsvp::before, #rsvp::after {
-  content: ''; position: absolute;
-  width: 200px; height: 250px; top: 50%;
-  transform: translateY(-50%);
-  opacity: 0.08;
-  transition: transform 0.1s linear;
+.countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 60px;
 }
-#rsvp::before { left: 2%; transform: translateY(-50%) translateX(calc(var(--parallax-decor-offset, 0px) * -1)); }
-#rsvp::after { right: 2%; transform: translateY(-50%) scaleX(-1) translateX(calc(var(--parallax-decor-offset, 0px) * -1)); }
-
-.rsvp-wrap {
-  max-width: 640px; margin: 0 auto;
-  background: var(--cream);
-  border: 1px solid rgba(196,154,74,0.5);
-  padding: 60px 52px; position: relative; z-index: 2;
+.countdown-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 400;
+  color: var(--teal);
+  line-height: 1;
+  letter-spacing: 0.06em;
 }
-.rsvp-wrap::before {
-  content: ''; position: absolute;
-  top: 8px; left: 8px; right: 8px; bottom: 8px;
-  border: 1px solid rgba(196,154,74,0.2);
-  pointer-events: none;
-}
-.rsvp-wrap::after {
-  content: '\2726'; position: absolute;
-  top: -14px; left: 50%; transform: translateX(-50%);
-  background: var(--cream); padding: 0 12px;
-  color: var(--gold-deep); font-size: 1.2rem;
-}
-.form-row { margin-bottom: 22px; }
-.form-row label {
-  display: block;
+.countdown-label {
   font-family: 'Cinzel Decorative', serif;
-  font-size: 0.5rem; letter-spacing: 0.2em;
-  color: var(--rust); text-transform: uppercase;
-  margin-bottom: 8px;
+  font-size: 0.4rem;
+  letter-spacing: 0.2em;
+  color: var(--gold-deep);
+  text-transform: uppercase;
+  margin-top: 5px;
 }
-.form-row input,
-.form-row select,
-.form-row textarea {
-  width: 100%; padding: 12px 16px;
-  border: 1px solid rgba(196,154,74,0.4);
-  background: var(--ivory);
-  font-family: inherit;
-  font-size: 0.92rem; color: var(--text);
-  outline: none; transition: border-color 0.3s;
-  -webkit-appearance: none;
+.countdown-sep {
+  font-size: 1.4rem;
+  color: var(--gold-deep);
+  opacity: 0.7;
+  padding-top: 6px;
 }
-.form-row input:focus,
-.form-row select:focus,
-.form-row textarea:focus {
-  border-color: var(--teal);
+.countdown-married {
+  font-family: 'IM Fell English', serif;
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  color: var(--teal);
+  letter-spacing: 0.1em;
+  margin-top: 28px;
+  font-style: italic;
+  text-align: center;
 }
-.form-row textarea { height: 100px; resize: none; }
-.form-check-group {
-  display: flex; flex-wrap: wrap; gap: 10px;
-}
-.form-check {
-  display: flex; align-items: center; gap: 8px; cursor: pointer;
-  font-size: 0.85rem; color: var(--text);
-}
-.form-check input[type="checkbox"] {
-  width: 16px; height: 16px;
-  accent-color: var(--teal);
-  cursor: pointer;
-}
-.btn-submit {
-  width: 100%; padding: 16px;
-  background: linear-gradient(135deg, var(--teal-deep), var(--teal));
-  color: var(--gold-light);
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 0.62rem; letter-spacing: 0.3em;
-  border: 1px solid var(--gold);
-  cursor: pointer; text-transform: uppercase;
-  transition: opacity 0.3s, transform 0.2s;
-  margin-top: 12px;
-}
-.btn-submit:hover { opacity: 0.88; transform: translateY(-1px); }
 
 /* ===== FOOTER ===== */
 footer {
@@ -903,36 +864,4 @@ body.js-ready .pattern-bg { will-change: transform; }
     will-change: auto !important;
   }
 
-  /* RSVP: show form at final state, no parallax */
-  #rsvp {
-    --parallax-decor-offset: 0px !important;
-  }
-  #rsvp::before {
-    transform: translateY(-50%) translateX(0px) !important;
-  }
-  #rsvp::after {
-    transform: translateY(-50%) scaleX(-1) translateX(0px) !important;
-  }
-  .rsvp-wrap {
-    transform: scale(1) !important;
-    box-shadow: 0 4px 8px rgba(232, 168, 56, 0.3) !important;
-  }
-  .rsvp-vignette {
-    opacity: 0 !important;
-    display: none !important;
-  }
-}
-
-/* ----- RSVP Vignette Overlay ----- */
-.rsvp-vignette {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0;
-  background: linear-gradient(to bottom,
-    rgba(30, 20, 10, 0.4) 0%,
-    transparent 25%,
-    transparent 75%,
-    rgba(30, 20, 10, 0.4) 100%);
 }
