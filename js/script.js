@@ -21,7 +21,7 @@
     initCountdown();
     initMobileNav();
     initGallery();
-    // initMusicToggle(); // uncomment when music track is ready
+    initMusicToggle();
 
     if (prefersReduced || !hasGSAP || !hasST) {
       // Fallback: use the original IntersectionObserver reveal
