@@ -199,7 +199,6 @@
     <li><a href="#story" data-en="Our Story" data-te="మన కథ">Our Story</a></li>
     <li><a href="#ceremonies" data-en="Pelli Pandiri" data-te="పెళ్లి పందిరి">Pelli Pandiri</a></li>
     <li><a href="#bommalu-showcase" data-en="Gallery" data-te="గ్యాలరీ">Gallery</a></li>
-    <li><a href="#rsvp" data-en="RSVP" data-te="స్పందన">RSVP</a></li>
   </ul>
   <div class="lang-toggle">
     <button class="active" data-lang="en">EN</button>
@@ -235,8 +234,30 @@
       <span class="lotus">🪷</span>
       <div class="line r"></div>
     </div>
-    <div class="hero-date" data-en="Saturday · 14th December 2024" data-te="శనివారం · 14 డిసెంబర్ 2024">Saturday · 14th December 2024</div>
+    <div class="hero-date" data-en="Sunday · 23rd August 2026" data-te="ఆదివారం · 23 ఆగస్టు 2026">Sunday · 23rd August 2026</div>
     <div class="hero-location" data-en="Sri Venkateswara Kalyana Mandapam, Hyderabad" data-te="శ్రీ వేంకటేశ్వర కల్యాణ మండపం, హైదరాబాద్">Sri Venkateswara Kalyana Mandapam, Hyderabad</div>
+    <div class="countdown" id="countdown" aria-label="Countdown to wedding">
+      <div class="countdown-unit">
+        <span class="countdown-num" id="cd-days">--</span>
+        <span class="countdown-label" data-en="Days" data-te="రోజులు">Days</span>
+      </div>
+      <div class="countdown-sep">·</div>
+      <div class="countdown-unit">
+        <span class="countdown-num" id="cd-hours">--</span>
+        <span class="countdown-label" data-en="Hours" data-te="గంటలు">Hours</span>
+      </div>
+      <div class="countdown-sep">·</div>
+      <div class="countdown-unit">
+        <span class="countdown-num" id="cd-mins">--</span>
+        <span class="countdown-label" data-en="Minutes" data-te="నిమిషాలు">Minutes</span>
+      </div>
+      <div class="countdown-sep">·</div>
+      <div class="countdown-unit">
+        <span class="countdown-num" id="cd-secs">--</span>
+        <span class="countdown-label" data-en="Seconds" data-te="సెకండ్లు">Seconds</span>
+      </div>
+    </div>
+    <p class="countdown-married" id="countdown-married" hidden data-en="✦ We are Married! ✦" data-te="✦ మేము వివాహమయ్యాము! ✦">✦ We are Married! ✦</p>
   </div>
 </section>
 
@@ -360,48 +381,6 @@
   </div>
 </section>
 
-<!-- RSVP -->
-<section id="rsvp">
-  <div class="section-header reveal">
-    <span class="pre" data-en="Kindly Respond" data-te="దయచేసి సమాధానం ఇవ్వండి">Kindly Respond</span>
-    <h2 data-en="RSVP &lt;em&gt;by 1st November&lt;/em&gt;" data-te="స్పందన &lt;em&gt;నవంబర్ 1 లోగా&lt;/em&gt;">RSVP <em>by 1st November</em></h2>
-    <div class="ornament-line"><span>✦</span></div>
-  </div>
-  <div class="rsvp-wrap reveal">
-    <div class="form-row">
-      <label data-en="Full Name" data-te="పూర్తి పేరు">Full Name</label>
-      <input type="text" data-en-ph="Your name" data-te-ph="మీ పేరు" placeholder="Your name"/>
-    </div>
-    <div class="form-row">
-      <label data-en="Email Address" data-te="ఇమెయిల్ చిరునామా">Email Address</label>
-      <input type="email" data-en-ph="your@email.com" data-te-ph="your@email.com" placeholder="your@email.com"/>
-    </div>
-    <div class="form-row">
-      <label data-en="Number of Guests" data-te="అతిథుల సంఖ్య">Number of Guests</label>
-      <select>
-        <option data-en="1 — Just Me" data-te="1 — నేను మాత్రమే">1 — Just Me</option>
-        <option data-en="2 — Myself &amp; a Guest" data-te="2 — నేను మరియు ఒక అతిథి">2 — Myself &amp; a Guest</option>
-        <option data-en="3" data-te="3">3</option>
-        <option data-en="4 or more" data-te="4 లేదా అంతకంటే ఎక్కువ">4 or more</option>
-      </select>
-    </div>
-    <div class="form-row">
-      <label data-en="Which Ceremonies Will You Attend?" data-te="మీరు ఏ వేడుకలకు హాజరవుతారు?">Which Ceremonies Will You Attend?</label>
-      <div class="form-check-group">
-        <label class="form-check"><input type="checkbox"/> <span data-en="Pellikuturu" data-te="పెళ్లికూతురు">Pellikuturu</span></label>
-        <label class="form-check"><input type="checkbox"/> <span data-en="Mehendi" data-te="మెహెందీ">Mehendi</span></label>
-        <label class="form-check"><input type="checkbox"/> <span data-en="Sangeet" data-te="సంగీతం">Sangeet</span></label>
-        <label class="form-check"><input type="checkbox" checked/> <span data-en="Muhurtham" data-te="ముహూర్తం">Muhurtham</span></label>
-        <label class="form-check"><input type="checkbox" checked/> <span data-en="Reception" data-te="రిసెప్షన్">Reception</span></label>
-      </div>
-    </div>
-    <div class="form-row">
-      <label data-en="Dietary Requirements" data-te="ఆహార అవసరాలు">Dietary Requirements</label>
-      <textarea data-en-ph="Let us know of any allergies or preferences…" data-te-ph="ఏదైనా అలెర్జీలు లేదా ప్రాధాన్యతలు తెలియజేయండి…" placeholder="Let us know of any allergies or preferences…"></textarea>
-    </div>
-    <button class="btn-submit" data-en="Confirm Attendance" data-te="హాజరు నిర్ధారించండి">Confirm Attendance</button>
-  </div>
-</section>
 
 <!-- FOOTER -->
 <footer>
@@ -414,7 +393,7 @@
     <span class="amp">&amp;</span>
     <span data-en="Arjun" data-te="అర్జున్">Arjun</span>
   </div>
-  <div class="footer-date" data-en="14 · 12 · 2024 · Hyderabad" data-te="14 · 12 · 2024 · హైదరాబాద్">14 · 12 · 2024 · Hyderabad</div>
+  <div class="footer-date" data-en="23 · 08 · 2026 · Hyderabad" data-te="23 · 08 · 2026 · హైదరాబాద్">23 · 08 · 2026 · Hyderabad</div>
   <div class="footer-msg" data-en="&quot;Two hearts, one destiny — bound by love, blessed by tradition.&quot;" data-te="&quot;రెండు హృదయాలు, ఒకే గమ్యం — ప్రేమతో బంధించబడ్డాయి, సంప్రదాయంతో ఆశీర్వదించబడ్డాయి.&quot;">"Two hearts, one destiny — bound by love, blessed by tradition."</div>
 </footer>
 
