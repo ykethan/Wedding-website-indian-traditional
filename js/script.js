@@ -19,6 +19,7 @@
     // Always-on features
     initLanguageToggle();
     initCountdown();
+    initMobileNav();
 
     if (prefersReduced || !hasGSAP || !hasST) {
       // Fallback: use the original IntersectionObserver reveal
@@ -526,6 +527,29 @@
 
     // Notify the hero timeline so it can re-wrap hero-name chars
     window.dispatchEvent(new Event('wedding-lang-change'));
+  }
+
+  // =====================================================================
+  // MOBILE NAV
+  // =====================================================================
+  function initMobileNav() {
+    var toggle = document.querySelector('.nav-toggle');
+    var nav    = document.querySelector('nav');
+    if (!toggle || !nav) return;
+
+    toggle.addEventListener('click', function () {
+      var isOpen = nav.classList.toggle('nav-open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+      toggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+    });
+
+    nav.querySelectorAll('ul a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        nav.classList.remove('nav-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open menu');
+      });
+    });
   }
 
   // =====================================================================
