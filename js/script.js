@@ -21,6 +21,7 @@
     initCountdown();
     initMobileNav();
     initGallery();
+    // initMusicToggle(); // uncomment when music track is ready
 
     if (prefersReduced || !hasGSAP || !hasST) {
       // Fallback: use the original IntersectionObserver reveal
@@ -611,6 +612,50 @@
       });
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(function (el) { observer.observe(el); });
+  }
+
+  // =====================================================================
+  // MUSIC TOGGLE — ambient background audio (Carnatic)
+  // Add your audio file at music/background.mp3 to activate.
+  // =====================================================================
+  function initMusicToggle() {
+    var btn   = document.getElementById('music-toggle');
+    var audio = document.getElementById('bg-music');
+    if (!btn || !audio) return;
+
+    audio.volume = 0.38; // ambient, not intrusive
+
+    function setPlaying(on) {
+      btn.classList.toggle('is-playing', on);
+      btn.setAttribute('aria-pressed', String(on));
+      btn.setAttribute('aria-label', on ? 'Pause background music' : 'Play background music');
+    }
+
+    function toggle() {
+      if (!audio.paused) {
+        audio.pause();
+        setPlaying(false);
+      } else {
+        // Ensure the source list is loaded before playing
+        if (audio.readyState === 0) { audio.load(); }
+        audio.play()
+          .then(function () { setPlaying(true); })
+          .catch(function (e) { console.warn('Audio play failed:', e.name, e.message); });
+      }
+    }
+
+    btn.addEventListener('click', toggle);
+    btn.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+    });
+
+    // Gently lower volume when lightbox is open
+    var lb = document.getElementById('lightbox');
+    if (lb) {
+      new MutationObserver(function () {
+        audio.volume = lb.hidden ? 0.38 : 0.12;
+      }).observe(lb, { attributes: true, attributeFilter: ['hidden'] });
+    }
   }
 
   // =====================================================================
