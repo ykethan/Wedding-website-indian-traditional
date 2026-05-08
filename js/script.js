@@ -466,6 +466,11 @@
         scrub: true
       }
     });
+
+    // Initialize the Parallax_Engine after existing parallax setup
+    if (window.ParallaxEngine) {
+      window.ParallaxEngine.init(lenis);
+    }
   }
 
   // =====================================================================

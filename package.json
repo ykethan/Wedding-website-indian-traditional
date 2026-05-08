@@ -1,0 +1,12 @@
+{
+  "name": "wedding-website-indian-traditional",
+  "version": "1.0.0",
+  "description": "Traditional Indian wedding website with parallax scroll effects",
+  "scripts": {
+    "dev": "npx serve -l 3000",
+    "start": "npx serve -l 3000",
+    "build": "echo 'Static site — no build step required'"
+  },
+  "keywords": ["wedding", "indian", "traditional", "parallax"],
+  "license": "MIT"
+}

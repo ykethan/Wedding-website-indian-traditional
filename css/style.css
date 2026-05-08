@@ -405,9 +405,10 @@ section { position: relative; z-index: 1; }
   width: 200px; height: 250px; top: 50%;
   transform: translateY(-50%);
   opacity: 0.08;
+  transition: transform 0.1s linear;
 }
-#rsvp::before { left: 2%; }
-#rsvp::after { right: 2%; transform: translateY(-50%) scaleX(-1); }
+#rsvp::before { left: 2%; transform: translateY(-50%) translateX(calc(var(--parallax-decor-offset, 0px) * -1)); }
+#rsvp::after { right: 2%; transform: translateY(-50%) scaleX(-1) translateX(calc(var(--parallax-decor-offset, 0px) * -1)); }
 
 .rsvp-wrap {
   max-width: 640px; margin: 0 auto;
@@ -842,4 +843,96 @@ body.js-ready .pattern-bg { will-change: transform; }
   .curtain { display: none !important; }
   .scroll-thread { display: none !important; }
   .scroll-thread-pendant svg { animation: none !important; }
+}
+
+
+/* ============================================================
+   PARALLAX ENGINE — Layer, Float, Container & Active Styles
+   GPU-only properties (transform, opacity) for all animations.
+   will-change toggled exclusively via JS (.parallax-active).
+   ============================================================ */
+
+/* ----- Parallax Layer (depth layers within sections) ----- */
+.parallax-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.parallax-layer--mid {
+  z-index: 1;
+}
+.parallax-layer--fg {
+  z-index: 2;
+}
+
+/* ----- Parallax Float (decorative floating elements) ----- */
+.parallax-float {
+  position: fixed;
+  pointer-events: none;
+  opacity: 0.15;
+  z-index: 1;
+}
+.parallax-float[aria-hidden="true"] {
+  speak: never;
+}
+
+/* ----- Parallax Container (section-level wrapper) ----- */
+.parallax-container {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ----- Parallax Active (will-change toggled by JS only) ----- */
+.parallax-active {
+  will-change: transform;
+}
+
+/* ----- Reduced Motion: reset all parallax transforms ----- */
+@media (prefers-reduced-motion: reduce) {
+  .parallax-layer,
+  .parallax-layer--mid,
+  .parallax-layer--fg,
+  .parallax-float,
+  .parallax-container,
+  .parallax-active {
+    transform: none !important;
+    opacity: 1 !important;
+    animation: none !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
+
+  /* RSVP: show form at final state, no parallax */
+  #rsvp {
+    --parallax-decor-offset: 0px !important;
+  }
+  #rsvp::before {
+    transform: translateY(-50%) translateX(0px) !important;
+  }
+  #rsvp::after {
+    transform: translateY(-50%) scaleX(-1) translateX(0px) !important;
+  }
+  .rsvp-wrap {
+    transform: scale(1) !important;
+    box-shadow: 0 4px 8px rgba(232, 168, 56, 0.3) !important;
+  }
+  .rsvp-vignette {
+    opacity: 0 !important;
+    display: none !important;
+  }
+}
+
+/* ----- RSVP Vignette Overlay ----- */
+.rsvp-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  background: linear-gradient(to bottom,
+    rgba(30, 20, 10, 0.4) 0%,
+    transparent 25%,
+    transparent 75%,
+    rgba(30, 20, 10, 0.4) 100%);
 }
