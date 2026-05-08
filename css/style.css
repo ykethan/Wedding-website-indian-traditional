@@ -18,7 +18,12 @@
 
 /* ===== Reset & Base ===== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  font-size: 16px; /* mobile base */
+}
+@media (min-width: 768px)  { html { font-size: 17px; } }
+@media (min-width: 1280px) { html { font-size: 18px; } }
 
 body {
   font-family: 'IM Fell English', Georgia, serif;
@@ -55,7 +60,7 @@ body.lang-te .bommalu-caption {
   font-size: 0.85rem !important;
 }
 body.lang-te .hero h1 {
-  font-size: clamp(1.9rem, 7.5vw, 6rem);
+  font-size: clamp(1.9rem, 7.5vw, 7.5rem);
   line-height: 1.15;
 }
 
@@ -195,7 +200,7 @@ nav.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(
 
 .hero h1 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2rem, 12vw, 7.5rem);
+  font-size: clamp(2rem, 7vw, 6rem);
   font-weight: 300; color: var(--teal-deep);
   line-height: 1.05; letter-spacing: 0.02em;
   animation: fadeUp 1.2s 0.2s ease both;
@@ -257,7 +262,7 @@ section { position: relative; z-index: 1; }
 .section-header h2 {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 300;
-  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
   color: var(--teal-deep); line-height: 1.1;
 }
 .section-header h2 em { color: var(--gold-deep); font-style: italic; }
@@ -747,6 +752,53 @@ footer .footer-msg {
   position: relative; z-index: 2;
   max-width: 500px; margin: 0 auto;
   line-height: 1.7;
+}
+
+/* ===== MUSIC TOGGLE ===== */
+.music-toggle {
+  position: fixed;
+  bottom: 26px; left: 20px;
+  z-index: 90;
+  width: 44px; height: 44px;
+  background: rgba(14,58,64,0.82);
+  border: 1px solid rgba(196,154,74,0.4);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold-light);
+  backdrop-filter: blur(6px);
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+  outline: none;
+}
+.music-toggle:hover  { background: rgba(14,58,64,0.95); border-color: var(--gold); transform: scale(1.08); }
+.music-toggle:focus-visible { box-shadow: 0 0 0 2px var(--gold); }
+
+.music-icon svg { width: 20px; height: 20px; display: block; }
+
+/* Animated bars shown while playing */
+.music-bars { display: none; align-items: flex-end; gap: 2.5px; height: 18px; }
+.music-bars i {
+  display: block; width: 3px;
+  background: var(--gold-light); border-radius: 2px;
+  animation: musicBar 1.1s ease-in-out infinite;
+}
+.music-bars i:nth-child(1) { height: 8px;  animation-delay: 0s;    }
+.music-bars i:nth-child(2) { height: 14px; animation-delay: 0.18s; }
+.music-bars i:nth-child(3) { height: 10px; animation-delay: 0.36s; }
+.music-bars i:nth-child(4) { height: 6px;  animation-delay: 0.09s; }
+@keyframes musicBar {
+  0%, 100% { transform: scaleY(0.45); }
+  50%      { transform: scaleY(1);    }
+}
+
+.music-toggle.is-playing .music-icon { display: none; }
+.music-toggle.is-playing .music-bars { display: flex; }
+
+@media (max-width: 700px) {
+  .music-toggle { bottom: 20px; left: 14px; width: 38px; height: 38px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .music-bars i { animation: none; transform: scaleY(0.75); }
 }
 
 /* ===== BOMMALU HOVER HINT ===== */
