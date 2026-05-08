@@ -1,4 +1,4 @@
-// ===== Priya & Arjun Wedding Website - JavaScript =====
+// ===== Kethan & Indu Wedding Website - JavaScript =====
 // Animations layered as progressive enhancement:
 //   1. Lenis smooth scroll
 //   2. Hero curtain unveil + staggered name reveal
