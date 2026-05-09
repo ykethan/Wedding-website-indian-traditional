@@ -465,7 +465,7 @@
 
     <div class="photo-card reveal" data-index="0">
       <div class="photo-wrap">
-        <img class="photo-img" src="" alt="Kethan & Indu — pre-wedding photo 1" loading="lazy"/>
+        <img class="photo-img" alt="Kethan & Indu — pre-wedding photo 1" loading="lazy"/>
         <div class="photo-ph" aria-hidden="true"><span>K &amp; I</span></div>
         <div class="photo-overlay"><span class="photo-zoom">⊕</span></div>
       </div>
@@ -473,7 +473,7 @@
 
     <div class="photo-card reveal" data-index="1">
       <div class="photo-wrap">
-        <img class="photo-img" src="" alt="Kethan & Indu — pre-wedding photo 2" loading="lazy"/>
+        <img class="photo-img" alt="Kethan & Indu — pre-wedding photo 2" loading="lazy"/>
         <div class="photo-ph" aria-hidden="true"><span>K &amp; I</span></div>
         <div class="photo-overlay"><span class="photo-zoom">⊕</span></div>
       </div>
@@ -481,7 +481,7 @@
 
     <div class="photo-card reveal" data-index="2">
       <div class="photo-wrap">
-        <img class="photo-img" src="" alt="Kethan & Indu — pre-wedding photo 3" loading="lazy"/>
+        <img class="photo-img" alt="Kethan & Indu — pre-wedding photo 3" loading="lazy"/>
         <div class="photo-ph" aria-hidden="true"><span>K &amp; I</span></div>
         <div class="photo-overlay"><span class="photo-zoom">⊕</span></div>
       </div>
@@ -489,7 +489,7 @@
 
     <div class="photo-card reveal" data-index="3">
       <div class="photo-wrap">
-        <img class="photo-img" src="" alt="Kethan & Indu — pre-wedding photo 4" loading="lazy"/>
+        <img class="photo-img" alt="Kethan & Indu — pre-wedding photo 4" loading="lazy"/>
         <div class="photo-ph" aria-hidden="true"><span>K &amp; I</span></div>
         <div class="photo-overlay"><span class="photo-zoom">⊕</span></div>
       </div>
@@ -497,7 +497,7 @@
 
     <div class="photo-card reveal" data-index="4">
       <div class="photo-wrap">
-        <img class="photo-img" src="" alt="Kethan & Indu — pre-wedding photo 5" loading="lazy"/>
+        <img class="photo-img" alt="Kethan & Indu — pre-wedding photo 5" loading="lazy"/>
         <div class="photo-ph" aria-hidden="true"><span>K &amp; I</span></div>
         <div class="photo-overlay"><span class="photo-zoom">⊕</span></div>
       </div>
@@ -505,7 +505,7 @@
 
     <div class="photo-card reveal" data-index="5">
       <div class="photo-wrap">
-        <img class="photo-img" src="" alt="Kethan & Indu — pre-wedding photo 6" loading="lazy"/>
+        <img class="photo-img" alt="Kethan & Indu — pre-wedding photo 6" loading="lazy"/>
         <div class="photo-ph" aria-hidden="true"><span>K &amp; I</span></div>
         <div class="photo-overlay"><span class="photo-zoom">⊕</span></div>
       </div>
@@ -521,7 +521,7 @@
   <button class="lb-prev" aria-label="Previous photo">&#8249;</button>
   <button class="lb-next" aria-label="Next photo">&#8250;</button>
   <div class="lb-img-wrap">
-    <img class="lb-img" src="" alt=""/>
+    <img class="lb-img" alt=""/>
   </div>
   <div class="lb-counter" aria-live="polite"></div>
 </div>
@@ -542,10 +542,33 @@
   <div class="footer-msg" data-en="&quot;Two hearts, one destiny — bound by love, blessed by tradition.&quot;" data-te="&quot;రెండు హృదయాలు, ఒకే గమ్యం — ప్రేమతో బంధించబడ్డాయి, సంప్రదాయంతో ఆశీర్వదించబడ్డాయి.&quot;">"Two hearts, one destiny — bound by love, blessed by tradition."</div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/[email protected]/dist/lenis.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/[email protected]/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/[email protected]/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script src="js/script.js"></script>
 <script src="js/parallax-engine.js"></script>
+<script>
+// Safety net: if GSAP timeline failed to reveal hero/cards/headers within 2.5s, show them.
+setTimeout(function(){
+  document.querySelectorAll('.hero-name .char').forEach(function(c){
+    c.style.opacity='1'; c.style.transform='none'; c.style.filter='none';
+  });
+  ['.hero-badge','.hero-divider','.hero-date','.hero-location','.countdown-frame','.curtain-left','.curtain-right'].forEach(function(s){
+    document.querySelectorAll(s).forEach(function(el){
+      if (s==='.curtain-left') el.style.transform='translateX(-105%)';
+      else if (s==='.curtain-right') el.style.transform='translateX(105%)';
+      else { el.style.opacity='1'; el.style.transform='none'; }
+    });
+  });
+  document.querySelectorAll('.ceremony-card').forEach(function(el){
+    el.classList.add('is-revealed');
+    el.style.opacity='1'; el.style.transform='none';
+  });
+  document.querySelectorAll('.section-header .pre, .section-header h2, .section-header .ornament-line, .reveal').forEach(function(el){
+    el.style.opacity='1'; el.style.transform='none'; el.style.filter='none';
+    el.classList.add('visible');
+  });
+}, 2500);
+</script>
 </body>
 </html>
