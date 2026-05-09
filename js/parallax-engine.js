@@ -816,7 +816,7 @@
     this.enterSection = enterSection;
     this.scrollTrigger = null;
     this._timeline = null;
-    this._blurEnabled = !_isMobile;
+    this._blurEnabled = false; // Blur disabled on all viewports — causes text blur during scroll
     this._exitId = exitSection.id || exitSection.className.split(' ')[0] || 'section';
     this._enterId = enterSection.id || enterSection.className.split(' ')[0] || 'section';
   }
@@ -859,13 +859,9 @@
       duration: 1
     };
 
-    // Add blur for desktop only
-    if (this._blurEnabled) {
-      exitTweenVars.filter = 'blur(1px)';
-    }
-
+    // Blur disabled globally — scale + opacity only for section transitions
     tl.fromTo(exitSection,
-      { scale: 1.0, opacity: 1.0, filter: 'blur(0px)' },
+      { scale: 1.0, opacity: 1.0 },
       exitTweenVars,
       0 // start at position 0
     );
@@ -915,7 +911,7 @@
 
     // Reset both sections to their default state
     if (gsapLib) {
-      gsapLib.set(this.exitSection, { scale: 1, opacity: 1, filter: 'blur(0px)', clearProps: 'scale,opacity,filter' });
+      gsapLib.set(this.exitSection, { scale: 1, opacity: 1, clearProps: 'scale,opacity,filter' });
       gsapLib.set(this.enterSection, { scale: 1, opacity: 1, clearProps: 'scale,opacity' });
     }
   };
@@ -1080,43 +1076,12 @@
         });
       }
 
-      // --- Background layer blur: progressive blur 0→3px from 50%–100% scroll progress ---
-      if (heroEl) {
-        gsap.fromTo(heroEl,
-          { filter: 'blur(0px)' },
-          {
-            filter: 'blur(3px)',
-            ease: 'none',
-            scrollTrigger: {
-              id: ST_PREFIX + 'hero-blur',
-              trigger: heroEl,
-              start: 'center top', // 50% of hero section scroll progress
-              end: 'bottom top',   // 100% of hero section scroll progress
-              scrub: scrubValue
-            }
-          }
-        );
-      }
+      // --- Background layer blur: DISABLED — blur during scroll degrades text legibility ---
+      // Hero fades via opacity only (handled by foreground layer below)
 
-      // --- Midground layer: .hero-bommalu, z-index 1, Speed_Factor 0.4 ---
-      // Only apply yPercent (vertical parallax offset) — existing script.js handles scale
-      if (bommaluEl) {
-        bommaluEl.style.position = 'relative';
-        bommaluEl.style.zIndex = '1';
-        bommaluEl.classList.add('parallax-active');
-
-        gsap.to(bommaluEl, {
-          yPercent: LAYER_CONFIGS.hero.midground.speedFactor * 100,
-          ease: 'none',
-          scrollTrigger: {
-            id: ST_PREFIX + 'hero-mid',
-            trigger: heroEl,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: scrubValue
-          }
-        });
-      }
+      // --- Midground layer: .hero-bommalu ---
+      // Parallax disabled: yPercent on an absolute bottom-anchored SVG
+      // causes visible jumping on scroll. The bommalu stays fixed in place.
 
       // --- Foreground layer: .hero-inner, z-index 2, Speed_Factor 0.7 ---
       // Only apply opacity 1→0 — existing script.js handles yPercent
@@ -1602,22 +1567,24 @@
 
     var scrubValue = PERF_CONFIG.scrubSmoothing;
 
+    // --- PINNING DISABLED ON ALL VIEWPORTS ---
+    // The pin created cardCount × 100vh of forced scroll which felt broken.
+    // script.js initCeremonyCards() already handles the unfurl animation.
+    return;
+
+    // (dead code below retained for reference)
     // --- SKIP PINNING ON MOBILE (≤700px) ---
     if (_isMobile) {
-      // On mobile, no pinning — static stacked layout, no decorative effects
       return;
     }
 
-    // --- DESKTOP PINNING (>700px) ---
     var cardCount = cards.length;
     var viewportHeight = window.innerHeight;
     var scrollDistance = cardCount * viewportHeight;
 
-    // Ensure ceremonies section has relative positioning for absolute children
     ceremoniesSection.style.position = 'relative';
     ceremoniesSection.style.overflow = 'hidden';
 
-    // Pin the ceremonies section over the calculated scroll distance
     var pinTrigger = window.ScrollTrigger.create({
       id: ST_PREFIX + 'ceremonies-pin',
       trigger: ceremoniesSection,
@@ -1629,21 +1596,13 @@
     });
     _ceremoniesTweens.push(pinTrigger);
 
-    // --- CARD ENTRY ANIMATIONS ---
-    // Each card animates in with 3D rotation and translateY, scrubbed to scroll progress
-    // Stagger: each successive card starts 150ms equivalent later
-    // Over 1s equivalent in scroll distance, with 150ms stagger between cards
     for (var i = 0; i < cardCount; i++) {
       var card = cards[i];
 
-      // Calculate the scroll range for this card within the pinned section
-      // Each card occupies one viewport height of scroll distance
-      // Stagger offset: 150ms / 1000ms = 0.15 of one card's scroll range
       var staggerPx = (150 / 1000) * viewportHeight;
       var cardStart = (i * viewportHeight) + (i * staggerPx);
       var cardEnd = cardStart + viewportHeight;
 
-      // Set perspective on the card for 3D transforms
       card.style.perspective = '1000px';
       card.style.transformStyle = 'preserve-3d';
       card.classList.add('parallax-active');

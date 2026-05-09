@@ -30,6 +30,9 @@ body {
   background: var(--ivory);
   color: var(--text);
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 /* ===== TELUGU FONT MODE ===== */
@@ -144,8 +147,8 @@ nav.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(
   align-items: center; justify-content: center;
   text-align: center; padding-top: 70px;
   background:
-    radial-gradient(ellipse at 50% 100%, rgba(196,154,74,0.18) 0%, transparent 60%),
-    radial-gradient(ellipse at 50% 0%, rgba(74,155,168,0.20) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 100%, rgba(196,154,74,0.14) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 0%, rgba(74,155,168,0.08) 0%, transparent 35%),
     var(--ivory);
   overflow: hidden;
 }
@@ -165,7 +168,7 @@ nav.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(
   position: absolute; bottom: -20px; left: 50%;
   transform: translateX(-50%);
   width: min(680px, 100vw);
-  height: auto; opacity: 0.16;
+  height: auto; opacity: 0.06;
   pointer-events: none; z-index: 1;
 }
 .side-bommalu {
@@ -184,12 +187,33 @@ nav.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(
 .corner.tl { top: 70px; left: 0; }
 .corner.tr { top: 70px; right: 0; transform: scaleX(-1); }
 
-.hero-inner { position: relative; z-index: 3; padding: 50px 20px; }
+.hero-inner {
+  position: relative;
+  z-index: 3;
+  padding: 50px 20px;
+}
+/* Ivory panel behind the text so it reads clearly over the bommalu illustration */
+.hero-inner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: min(560px, 96vw);
+  height: 100%;
+  background: radial-gradient(ellipse 80% 80% at 50% 45%,
+    rgba(251,244,224,0.97) 40%,
+    rgba(251,244,224,0.82) 65%,
+    transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+/* Ensure all direct hero-inner children sit above the halo */
+.hero-inner > * { position: relative; z-index: 1; }
 
 .hero-badge {
   display: inline-block;
   font-family: 'Cinzel Decorative', serif;
-  font-size: 0.55rem; letter-spacing: 0.4em;
+  font-size: 0.7rem; letter-spacing: 0.35em;
   color: var(--teal-deep);
   border: 1px solid rgba(14,58,64,0.4);
   padding: 6px 24px; margin-bottom: 28px;
@@ -202,12 +226,18 @@ nav.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(2rem, 7vw, 6rem);
   font-weight: 300; color: var(--teal-deep);
-  line-height: 1.05; letter-spacing: 0.02em;
+  line-height: 0.95; letter-spacing: 0.02em;
   animation: fadeUp 1.2s 0.2s ease both;
+  text-shadow: 0 1px 12px rgba(251,244,224,0.9), 0 0 30px rgba(251,244,224,0.6);
 }
+.hero h1 br { display: none; }
+.hero h1 .hero-name { display: block; }
 .hero h1 .amp {
   font-style: italic; color: var(--gold-deep);
-  font-size: 0.85em;
+  font-size: 0.5em;
+  display: block;
+  line-height: 1;
+  margin: -0.1em 0;
 }
 
 .hero-divider {
@@ -224,12 +254,12 @@ nav.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(
 
 .hero-date {
   font-family: 'Cinzel Decorative', serif;
-  font-size: 0.72rem; letter-spacing: 0.25em;
-  color: var(--teal); margin-bottom: 10px;
+  font-size: 0.88rem; letter-spacing: 0.22em;
+  color: var(--teal-deep); margin-bottom: 10px;
   animation: fadeUp 1.2s 0.45s ease both;
 }
 .hero-location {
-  font-size: 0.95rem; font-style: italic;
+  font-size: 1.05rem; font-style: italic;
   color: var(--text-soft);
   animation: fadeUp 1.2s 0.55s ease both;
 }
@@ -318,7 +348,7 @@ section { position: relative; z-index: 1; }
   color: var(--teal-deep); margin-bottom: 8px;
 }
 .story-item p {
-  font-size: 0.92rem; line-height: 1.75;
+  font-size: 1.05rem; line-height: 1.8;
   color: var(--text-soft);
 }
 
@@ -368,16 +398,16 @@ section { position: relative; z-index: 1; }
   color: var(--rust); margin-bottom: 8px;
 }
 .ceremony-card .time {
-  font-size: 0.88rem; color: var(--text-soft);
+  font-size: 1rem; color: var(--text-soft);
   margin-bottom: 10px;
 }
 .ceremony-card .venue {
-  font-size: 0.85rem; font-style: italic;
+  font-size: 1rem; font-style: italic;
   color: var(--gold-deep); font-weight: 600;
 }
 .ceremony-card p {
-  font-size: 0.82rem; color: var(--text-soft);
-  line-height: 1.6; margin-top: 12px;
+  font-size: 0.97rem; color: var(--text-soft);
+  line-height: 1.7; margin-top: 12px;
 }
 
 /* ===== PHOTO GALLERY ===== */
@@ -614,7 +644,7 @@ section { position: relative; z-index: 1; }
   line-height: 1.3;
 }
 .venue-info p {
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   color: var(--text-soft);
   margin-bottom: 24px;
   font-style: italic;
@@ -688,17 +718,18 @@ section { position: relative; z-index: 1; }
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 400;
-  color: var(--teal);
+  color: var(--teal-deep);
   line-height: 1;
+  text-shadow: 0 1px 8px rgba(251,244,224,0.95);
   letter-spacing: 0.06em;
 }
 .countdown-label {
   font-family: 'Cinzel Decorative', serif;
-  font-size: 0.4rem;
-  letter-spacing: 0.2em;
-  color: var(--gold-deep);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  color: var(--teal-deep);
   text-transform: uppercase;
-  margin-top: 5px;
+  margin-top: 6px;
 }
 .countdown-sep {
   font-size: 1.4rem;
@@ -747,7 +778,7 @@ footer .footer-date {
   position: relative; z-index: 2;
 }
 footer .footer-msg {
-  font-size: 0.88rem; font-style: italic;
+  font-size: 1rem; font-style: italic;
   color: rgba(251,244,224,0.65);
   position: relative; z-index: 2;
   max-width: 500px; margin: 0 auto;
@@ -1003,12 +1034,11 @@ body.js-ready .hero-location { animation: none; opacity: 0; }
 /* Names wrapped in per-character spans by JS; set base state */
 .hero-name .char {
   display: inline-block;
-  will-change: transform, opacity, filter;
+  will-change: transform, opacity;
 }
 body.js-ready .hero-name .char {
   opacity: 0;
   transform: translateY(0.5em);
-  filter: blur(8px);
 }
 
 /* ================ BOMMALU SELF-DRAW ================ */
@@ -1157,7 +1187,6 @@ body.js-ready .section-header .pre {
 body.js-ready .section-header h2 {
   opacity: 0;
   transform: translateY(18px);
-  filter: blur(3px);
 }
 body.js-ready .section-header .ornament-line {
   opacity: 0;
