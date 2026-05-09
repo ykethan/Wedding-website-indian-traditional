@@ -99,7 +99,7 @@
           wrapChars(el);
           // After re-wrap, chars are hidden again — animate them back in
           window.gsap.to(el.querySelectorAll('.char'), {
-            opacity: 1, y: 0, filter: 'blur(0px)',
+            opacity: 1, y: 0,
             duration: 0.7, stagger: 0.03, ease: 'power3.out'
           });
         });
@@ -179,13 +179,24 @@
     var text = el.textContent;
     el.innerHTML = '';
     var frag = document.createDocumentFragment();
-    for (var i = 0; i < text.length; i++) {
-      var ch = text[i];
+
+    // Use Intl.Segmenter (grapheme-cluster aware) so Telugu/Devanagari
+    // combining characters (e.g. \u0C15\u0C47, \u0C28\u0C4D) stay together as one span.
+    // Falls back to Unicode-aware spread for older browsers.
+    var segments;
+    if (typeof Intl !== 'undefined' && typeof Intl.Segmenter === 'function') {
+      var segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+      segments = Array.from(segmenter.segment(text), function (s) { return s.segment; });
+    } else {
+      segments = Array.from(text); // handles surrogates, misses some combining chars
+    }
+
+    segments.forEach(function (ch) {
       var span = document.createElement('span');
       span.className = 'char';
       span.textContent = ch === ' ' ? '\u00A0' : ch;
       frag.appendChild(span);
-    }
+    });
     el.appendChild(frag);
   }
 
