@@ -23,6 +23,11 @@
     initGallery();
     initMusicToggle();
 
+    // ponytail: pause autoplay videos for reduced-motion users
+    if (prefersReduced) {
+      document.querySelectorAll('video[autoplay]').forEach(function (v) { v.pause(); v.removeAttribute('autoplay'); });
+    }
+
     if (prefersReduced || !hasGSAP || !hasST) {
       // Fallback: use the original IntersectionObserver reveal
       initLegacyReveal();
@@ -42,6 +47,7 @@
     initHeroTimeline();
     initStoryTimeline();
     initCeremonyCards();
+    initGalleryReveal();
     initSectionHeaders();
     initGenericReveal();
     initScrollThread();
@@ -441,6 +447,34 @@
               setTimeout(function () { c.classList.add('is-revealed'); }, i * 120 + 100);
             });
           }
+        });
+      }
+    });
+  }
+
+  // =====================================================================
+  // 5b. GALLERY PHOTO CARDS — staggered reveal on scroll
+  // =====================================================================
+  function initGalleryReveal() {
+    var gsap = window.gsap;
+    var cards = document.querySelectorAll('.photo-card');
+    if (!cards.length) return;
+
+    // Set initial hidden state
+    gsap.set(cards, { opacity: 0, y: 40, scale: 0.96 });
+
+    window.ScrollTrigger.create({
+      trigger: '.photo-grid',
+      start: 'top 80%',
+      once: true,
+      onEnter: function () {
+        gsap.to(cards, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          ease: 'power3.out',
+          stagger: 0.1
         });
       }
     });
