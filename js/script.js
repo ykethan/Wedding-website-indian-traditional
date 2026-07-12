@@ -809,7 +809,7 @@
   // COUNTDOWN TIMER
   // =====================================================================
   function initCountdown() {
-    var target  = new Date('2026-08-23T11:30:00+05:30').getTime();
+    var target  = new Date('2026-08-23T11:23:00+05:30').getTime();
     var wrap    = document.getElementById('countdown');
     var married = document.getElementById('countdown-married');
     var daysEl  = document.getElementById('cd-days');

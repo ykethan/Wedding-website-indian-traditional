@@ -198,6 +198,35 @@ nav.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(
   animation: fadeUp 1.2s ease both;
 }
 
+.hero-parents {
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--text-soft);
+  max-width: 480px;
+  margin: 0 auto 8px;
+  line-height: 1.5;
+  animation: fadeUp 1.2s 0.1s ease both;
+}
+.hero-parents-names,
+.hero-groom-parents {
+  font-size: 1.05rem;
+  color: var(--gold-deep);
+  font-style: italic;
+  font-weight: 600;
+  margin-bottom: 18px;
+  animation: fadeUp 1.2s 0.15s ease both;
+}
+.hero-sub-parents {
+  display: block;
+  font-family: 'IM Fell English', Georgia, serif;
+  font-size: 1rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--gold-deep);
+  letter-spacing: 0.02em;
+  margin-bottom: 12px;
+}
+
 .hero h1 {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(2rem, 7vw, 6rem);
@@ -206,6 +235,7 @@ nav.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(
   animation: fadeUp 1.2s 0.2s ease both;
 }
 .hero h1 .amp {
+  display: block;
   font-style: italic; color: var(--gold-deep);
   font-size: 0.85em;
 }
@@ -322,6 +352,22 @@ section { position: relative; z-index: 1; }
   color: var(--text-soft);
 }
 
+/* ===== E-INVITE VIDEO ===== */
+.einvite-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+  background: var(--ivory);
+}
+.einvite-video {
+  max-width: 360px;
+  width: 100%;
+  height: auto;
+  border: 2px solid var(--gold);
+  box-shadow: 0 20px 60px rgba(14,58,64,0.15);
+}
+
 /* ===== CEREMONIES ===== */
 #ceremonies {
   padding: 100px 20px;
@@ -422,26 +468,25 @@ section { position: relative; z-index: 1; }
 }
 
 .photo-wrap {
-  aspect-ratio: 3/4;
+  aspect-ratio: 1/1;
   position: relative; overflow: hidden;
   background: linear-gradient(135deg, var(--teal) 0%, var(--teal-deep) 100%);
 }
-/* Every 4th card is landscape for visual variety */
-.photo-grid .photo-card:nth-child(4n+2) .photo-wrap,
-.photo-grid .photo-card:nth-child(4n+3) .photo-wrap { aspect-ratio: 4/3; }
+.photo-wrap video.photo-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
 
 /* Actual photo */
 .photo-img {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover; display: block;
-  opacity: 0;
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  transform: scale(1.02);
+  transition: transform 0.5s ease;
 }
-.photo-img.ph-loaded {
-  opacity: 1;
-  transform: scale(1);
+.photo-card:hover .photo-img {
+  transform: scale(1.05);
 }
 
 /* Placeholder shown before real photo loads */
@@ -543,8 +588,7 @@ section { position: relative; z-index: 1; }
 /* Gallery responsive */
 @media (max-width: 700px) {
   .photo-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .photo-grid .photo-card:nth-child(4n+2) .photo-wrap,
-  .photo-grid .photo-card:nth-child(4n+3) .photo-wrap { aspect-ratio: 3/4; }
+}
   .lb-prev { left: 4px; font-size: 2.8rem; }
   .lb-next { right: 4px; font-size: 2.8rem; }
 }
@@ -577,20 +621,31 @@ section { position: relative; z-index: 1; }
   white-space: nowrap;
 }
 
-/* ===== CALENDAR LINK (ceremony cards) ===== */
-.cal-link {
-  display: inline-block;
+/* ===== CALENDAR + MAP LINKS (ceremony cards) ===== */
+.card-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
   margin-top: 14px;
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 0.45rem;
-  letter-spacing: 0.18em;
-  color: var(--teal);
+}
+.cal-link,
+.map-link {
+  display: inline-block;
+  font-family: 'IM Fell English', Georgia, serif;
+  font-size: 15px;
+  font-style: italic;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--teal-deep);
   text-decoration: none;
-  border-bottom: 1px solid rgba(21,83,92,0.3);
+  border-bottom: 1.5px solid var(--teal-deep);
   padding-bottom: 2px;
   transition: color 0.25s, border-color 0.25s;
 }
-.cal-link:hover { color: var(--gold-deep); border-color: var(--gold-deep); }
+.cal-link:hover,
+.map-link:hover { color: var(--gold-deep); border-color: var(--gold-deep); }
 
 /* ===== VENUE ===== */
 #venue {
@@ -659,7 +714,7 @@ section { position: relative; z-index: 1; }
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-top: 28px;
+  margin: 28px auto 0;
   width: 100%;
   max-width: 520px;
 }
