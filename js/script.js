@@ -28,6 +28,10 @@
       document.querySelectorAll('video[autoplay]').forEach(function (v) { v.pause(); v.removeAttribute('autoplay'); });
     }
 
+    // Speed up the e-invite video (33s is a bit slow looping)
+    var einvite = document.querySelector('.einvite-video');
+    if (einvite) einvite.playbackRate = 2.0;
+
     if (prefersReduced || !hasGSAP || !hasST) {
       // Fallback: use the original IntersectionObserver reveal
       initLegacyReveal();
