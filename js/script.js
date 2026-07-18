@@ -7,15 +7,6 @@
 //   5. Ceremony card 3D unfurl
 //   6. Scroll progress thread with swaying pendant
 
-// ponytail: iOS needs maps:// scheme to open Apple Maps natively; Android/desktop use google.com
-function openMaps(lat, lng) {
-  var isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
-  var url = isIOS
-    ? 'maps://maps.google.com/maps?daddr=' + lat + ',' + lng + '&ll='
-    : 'https://maps.google.com/maps?daddr=' + lat + ',' + lng + '&ll=';
-  window.open(url);
-}
-
 (function () {
   'use strict';
 
