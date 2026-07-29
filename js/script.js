@@ -22,6 +22,7 @@
     initMobileNav();
     initGallery();
     initMusicToggle();
+    initMapLinks();
 
     // ponytail: pause autoplay videos for reduced-motion users
     if (prefersReduced) {
@@ -840,6 +841,42 @@
         toggle.setAttribute('aria-expanded', 'false');
         toggle.setAttribute('aria-label', 'Open menu');
       });
+    });
+  }
+
+  // =====================================================================
+  // MAP LINKS — progressive enhancement for Apple devices
+  //
+  // Every .map-link ships with a Google Maps universal URL in `href`. Per
+  // Google's Maps URLs spec, that single URL already works everywhere: it
+  // opens the native Google Maps app on Android and on iOS when installed,
+  // and falls back to the browser otherwise.
+  //
+  // On Apple devices many guests have no Google Maps app, so they would get
+  // a browser tab instead of turn-by-turn navigation. Where a link supplies
+  // a `data-apple-maps` URL we swap it in so Apple Maps opens natively.
+  //
+  // This is purely additive: with JS disabled the Google URL still works.
+  // =====================================================================
+  function initMapLinks() {
+    var links = document.querySelectorAll('.map-link[data-apple-maps]');
+    if (!links.length) return;
+
+    // iPadOS 13+ reports its UA as "Macintosh", so a UA sniff alone misses
+    // iPads. Pair it with a touch check: desktop Macs report maxTouchPoints
+    // of exactly 0, while touch-capable iPads report a positive value. Using
+    // `> 0` rather than `> 1` keeps this correct under device emulation,
+    // which can report a single touch point.
+    var ua = navigator.userAgent || '';
+    var isAppleDevice =
+      /iPhone|iPad|iPod/.test(ua) ||
+      (/Macintosh/.test(ua) && (navigator.maxTouchPoints || 0) > 0);
+
+    if (!isAppleDevice) return;
+
+    links.forEach(function (link) {
+      var appleUrl = link.getAttribute('data-apple-maps');
+      if (appleUrl) link.setAttribute('href', appleUrl);
     });
   }
 

@@ -652,6 +652,31 @@ section { position: relative; z-index: 1; }
 .cal-link:active,
 .map-link:active { transform: scale(0.97); }
 
+/* The text itself is only ~22px tall, below the 44px minimum comfortable
+   tap target. Expand the hit area vertically with a pseudo-element so the
+   visual design and surrounding layout stay untouched. Vertical-only growth
+   keeps neighbouring links in the flex row from overlapping. */
+.cal-link,
+.map-link { position: relative; }
+.cal-link::before,
+.map-link::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  height: 100%;
+  min-height: 44px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cal-link,
+  .map-link { transition: none; }
+  .cal-link:active,
+  .map-link:active { transform: none; }
+}
+
 /* ===== VENUE ===== */
 #venue {
   padding: 100px 20px;
