@@ -847,7 +847,7 @@
   // =====================================================================
   // MAP LINKS — progressive enhancement for Apple devices
   //
-  // Every .map-link ships with a Google Maps universal URL in `href`. Per
+  // Every map link ships with a Google Maps universal URL in `href`. Per
   // Google's Maps URLs spec, that single URL already works everywhere: it
   // opens the native Google Maps app on Android and on iOS when installed,
   // and falls back to the browser otherwise.
@@ -859,7 +859,10 @@
   // This is purely additive: with JS disabled the Google URL still works.
   // =====================================================================
   function initMapLinks() {
-    var links = document.querySelectorAll('.map-link[data-apple-maps]');
+    // Keyed off the attribute rather than a styling class, so any link opting
+    // in gets the swap regardless of how it is presented (.map-link on the
+    // ceremony cards, .btn-directions in the accommodation section).
+    var links = document.querySelectorAll('a[data-apple-maps]');
     if (!links.length) return;
 
     // iPadOS 13+ reports its UA as "Macintosh", so a UA sniff alone misses

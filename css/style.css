@@ -657,9 +657,11 @@ section { position: relative; z-index: 1; }
    visual design and surrounding layout stay untouched. Vertical-only growth
    keeps neighbouring links in the flex row from overlapping. */
 .cal-link,
-.map-link { position: relative; }
+.map-link,
+.btn-directions { position: relative; }
 .cal-link::before,
-.map-link::before {
+.map-link::before,
+.btn-directions::before {
   content: '';
   position: absolute;
   top: 50%;
@@ -717,6 +719,14 @@ section { position: relative; z-index: 1; }
   transition: opacity 0.3s, transform 0.2s;
 }
 .btn-directions:hover { opacity: 0.88; transform: translateY(-1px); }
+
+/* Declared after .btn-directions rather than alongside the other link
+   reduced-motion overrides: at equal specificity the later rule wins, and
+   .btn-directions sets its transition further down the stylesheet. */
+@media (prefers-reduced-motion: reduce) {
+  .btn-directions { transition: none; }
+  .btn-directions:hover { transform: none; }
+}
 .venue-map {
   border: 1px solid rgba(196,154,74,0.4);
   overflow: hidden;
